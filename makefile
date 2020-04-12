@@ -45,12 +45,14 @@ all: 	CFLAGS += -s
 all: 	LDFLAGS += -s
 all:
 	@$(MAKE) -C library
+	@$(MAKE) -C unittest	
 	@#@$(MAKE) createDistribution
 
 # Debug version: make debug
 debug:  CFLAGS += -DDEBUG -g
 debug:
 	@$(MAKE) -C library
+	@$(MAKE) -C unittest
 
 install:
 	@$(MAKE) -C library install
