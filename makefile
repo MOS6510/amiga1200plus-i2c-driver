@@ -12,6 +12,7 @@ RANLIB							   = $(CCPATH)/bin/m68k-amigaos-ranlib
 LD                       		= $(CCPATH)/bin/m68k-amigaos-gcc
 SHELL                         = sh
 XDFTOOL								= /usr/local/bin/xdftool
+SFDC									= /Users/heiko/Downloads/sfdc/sfdc-mastersfdc
 AMIGA_EXPLORER                = $(PWD)/tools/lxamiga.pl
 
 ADFIMAGE								:= $(PROJ_ROOT)/build/Amiga1200+i2c.adf
@@ -25,7 +26,8 @@ CFLAGS								+= -Os \
                               -Wall \
                               -m68$(ARCH) \
 										-fomit-frame-pointer \
-                              -msoft-float
+                              -msoft-float \
+                              -Wno-pointer-sign
 
 LDFLAGS 								+= -Llibs -noixemul
 
@@ -36,7 +38,7 @@ endif
 
 BUILDDIR								:= build
 
-export CCPATH CC LD CXX CFLAGS LDFLAGS RANLIB AR LD AOS_INCLUDES OS_INCLUDES CFLAGS ARCH PROJ_ROOT XDFTOOL AMIGA_EXPLORER NM ADFIMAGE
+export CCPATH CC LD CXX CFLAGS LDFLAGS RANLIB AR LD AOS_INCLUDES OS_INCLUDES CFLAGS ARCH PROJ_ROOT XDFTOOL AMIGA_EXPLORER NM ADFIMAGE SFDC
 
 .PHONY: install clean all debug createDistribution
 

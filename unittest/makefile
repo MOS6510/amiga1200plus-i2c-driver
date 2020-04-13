@@ -24,6 +24,7 @@ OBJ_LIB    							= $(patsubst %.c, $(BUILDDIR)/%.o, $(SRC_LIB))
 OBJ_MAIN								= $(patsubst %.c, $(BUILDDIR)/%.o, $(SRC_MAIN))
 
 LDFLAGS += -L$(BUILDDIR)
+CFLAGS += -I../library/build
 
 
 .PHONY: all distribution builddir install clean

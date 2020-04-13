@@ -8,6 +8,8 @@
 #ifndef __I2CLIB_H_
 #define __I2CLIB_H_
 
+#include "i2c_library.h"
+
 
 typedef struct {
    struct Library library;

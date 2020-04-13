@@ -16,7 +16,6 @@
 #include <exec/resident.h>
 #include <libinit.h>
 
-#include "helper.h"
 #include "version.h"
 
 #include "i2clib.h"
@@ -28,11 +27,11 @@ struct ExecBase * SysBase = NULL;
 
 // ------------------- local Prototypes ------------------------
 
-SAVEDS struct Library * asmLibInit(REG(a0, BPTR segmentList),
+struct Library * asmLibInit(REG(a0, BPTR segmentList),
                                    REG(d0, I2CLibrary * lib),
                                    REG(a6, struct ExecBase * exec_base));
 
-SAVEDS BPTR asmLibExpunge(REG(a6, I2CLibrary * library));
+BPTR asmLibExpunge(REG(a6, I2CLibrary * library));
 
 // ------------------- IMPLEMENTATION ------------------------
 
@@ -123,7 +122,6 @@ struct Library * asmLibOpen(
  * @param REG(a6,struct Library * DevBase)
  * @return
  */
-SAVEDS
 BPTR asmLibClose( REG(a6, I2CLibrary * library))
 {
    library->library.lib_OpenCnt--;
@@ -142,7 +140,6 @@ BPTR asmLibClose( REG(a6, I2CLibrary * library))
  * @param REG(a6,struct Library * DevBase)
  * @return
  */
-SAVEDS
 BPTR asmLibExpunge(REG(a6, I2CLibrary * library))
 {
    BPTR segmentList = 0l;
@@ -166,14 +163,68 @@ BPTR asmLibExpunge(REG(a6, I2CLibrary * library))
    return segmentList;
 }
 
+BYTE AllocI2C(REG(d0,UBYTE Delay_Type), REG(a1,STRPTR Name)){
+   return 0;
+}
+
+void FreeI2C(void) {
+}
+
+ULONG SetI2CDelay(REG(d0, ULONG ticks)) {
+   return 19;
+}
+
+void InitI2C(void) {
+}
+
+ULONG SendI2C(REG(d0,UBYTE addr), REG(d1,UWORD number), REG(a1,UBYTE *i2cdata)) {
+   return I2C_NO_REPLY << 8;
+}
+
+ULONG ReceiveI2C(REG(d0,UBYTE addr), REG(d1,UWORD number), REG(a1,UBYTE *i2cdata)) {
+   for(int i=0;i<number;i++) {
+      i2cdata[i] = 0;
+   }
+   return I2C_NO_REPLY << 8;
+}
+
+STRPTR GetI2COpponent(void) {
+   return "<Not Supported>";
+}
+
+STRPTR I2CErrText(REG(d0,ULONG errnum)) {
+   return "<Not Supported>";
+}
+
+void ShutDownI2C(void) {
+   //Not supported
+}
+
+BYTE BringBackI2C(void) {
+   //Not supported
+   return 0;
+}
+
 /**
  * Now add all "Library Functions" to the Library/Device.
- * WARNING: All functions must exist! If not, no warning is generated and the ADD2LIST is not called!
+ * WARNING: All functions must exist! If not, no warning will be generated and the ADD2LIST is not called!
  * Errors here would re-order the function table and funny things happen when using the library!
  */
 ADD2LIST(asmLibOpen,         __FuncTable__,22);
 ADD2LIST(asmLibClose,        __FuncTable__,22);
 ADD2LIST(asmLibExpunge,      __FuncTable__,22);
 ADD2LIST(asmLibNullFunction, __FuncTable__,22); // => Unused AmigaOS function (but must be present in table!)
-//TODO: Add further library calls here...
+
+//All real custom library functions. Most of them are only for compatibility reasons here:
+ADD2LIST(AllocI2C,           __FuncTable__,22);
+ADD2LIST(FreeI2C,            __FuncTable__,22);
+ADD2LIST(SetI2CDelay,        __FuncTable__,22);
+ADD2LIST(InitI2C,            __FuncTable__,22);
+ADD2LIST(SendI2C,            __FuncTable__,22);
+ADD2LIST(ReceiveI2C,         __FuncTable__,22);
+ADD2LIST(GetI2COpponent,     __FuncTable__,22);
+ADD2LIST(I2CErrText,         __FuncTable__,22);
+ADD2LIST(ShutDownI2C,        __FuncTable__,22);
+ADD2LIST(BringBackI2C,       __FuncTable__,22);
+
 ADDTABL_END();

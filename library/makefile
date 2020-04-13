@@ -13,7 +13,7 @@ SRC     += $(wildcard *.c)
 HDR     += $(wildcard *.h)
 
 #Make sure "devinit.o" is the first object file during linking!
-FIRST_LINK_OBJECT = libinit.c
+FIRST_LINK_OBJECT = libmain.c
 SRC_TMP := $(SRC)
 SRC = $(filter-out $(FIRST_LINK_OBJECT), $(SRC_TMP))
 SRC := $(FIRST_LINK_OBJECT) $(SRC)
@@ -26,9 +26,9 @@ LDOPTS += -Wl,-Map,$@.map -Wl,--cref
 CFLAGS += -Wno-pointer-sign
 CFLAGS += -DLIBRARY_NAME=\"$(LIBRARY_NAME)\"
 
-.PHONY: all distribution builddir clean
+.PHONY: all sfd distribution builddir clean
 
-all: builddir $(BUILDDIR)/$(LIBRARY_NAME).$(ARCH)
+all: builddir sfd $(BUILDDIR)/$(LIBRARY_NAME).$(ARCH)
 
 addToAdf:
 	@echo "Add to ADF file:"
@@ -58,6 +58,9 @@ $(BUILDDIR)/$(LIBRARY_NAME).$(ARCH):	$(OBJS)
 		@strings $@ | grep '$$VER'
 		@#@$(MAKE) addToAdf
 		@#@ls -la $@
+		
+sfd:  sfd/i2c_lib.sfd
+		$(SFDC) sfd/i2c_lib.sfd --output=build/inline_i2c_lib.h --mode macros
 
 clean:
 		rm -rf -d *.o *.s *.aobj *.library *.map mapfile $(BUILDDIR)/*.o $(BUILDDIR)/*.library

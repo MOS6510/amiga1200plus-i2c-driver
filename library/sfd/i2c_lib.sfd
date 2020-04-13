@@ -1,0 +1,22 @@
+==id $Id: i2c_lib.sfd 40.2 2020/04/13 12:00:00 pruessing Exp pruessing $
+==base _I2CBase
+==basetype struct I2CLibrary *
+==libname i2c.library
+==bias 30
+==public
+==include <exec/types.h>
+==include <exec/libraries.h>
+==version 37
+BYTE AllocI2C(UBYTE Delay_Type, STRPTR Name) (D0,A1)
+void FreeI2C(void) ()
+ULONG SetI2CDelay(ULONG ticks) (D0)
+void InitI2C(void) ()
+ULONG SendI2C(UBYTE addr, UWORD number, UBYTE *i2cdata) (D0,D1,A1)
+ULONG ReceiveI2C(UBYTE addr, UWORD number, UBYTE *i2cdata) (D0,D1,A1)
+==version 38
+STRPTR GetI2COpponent(void) ()
+==version 39
+STRPTR I2CErrText(ULONG errnum) (D0)
+void ShutDownI2C(void)()
+BYTE BringBackI2C(void)()
+==end

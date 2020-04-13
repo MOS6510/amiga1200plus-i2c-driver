@@ -8,7 +8,7 @@
 #define __DEV_VERSION__
 
 //The device versions and the device build time...
-#define LIBRARY_VERSION  1
+#define LIBRARY_VERSION  36
 #define LIBRARY_REVISION 0
 #define LIBRARY_BUILD    1
 
